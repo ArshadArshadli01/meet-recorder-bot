@@ -45,6 +45,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <Toaster richColors position="top-center" closeButton />
         </ThemeProvider>
+
+        {/* 
+          Static footer for Google Branding Verification. 
+          Must be visible in raw HTML and accessible without login on the home page.
+        */}
+        <footer className="w-full py-4 px-6 border-t border-border/10 bg-background/50 text-[10px] text-muted-foreground/30 flex justify-center gap-4">
+          <p>&copy; 2026 Arshadli. All rights reserved.</p>
+          <a href="/privacy-policy" className="hover:text-primary transition-colors underline-offset-4 hover:underline">
+            Privacy Policy
+          </a>
+          <a href="/terms" className="hover:text-primary transition-colors underline-offset-4 hover:underline">
+            Terms of Service
+          </a>
+        </footer>
       </body>
     </html>
   );
