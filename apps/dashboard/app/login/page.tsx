@@ -102,6 +102,16 @@ function LoginInner() {
             </span>
           </li>
         </ul>
+
+        <div className="mt-8 flex justify-center gap-4 text-xs text-muted-foreground/60">
+          <a href="/privacy" className="hover:text-primary transition-colors underline-offset-4 hover:underline">
+            Gizlilik siyasəti
+          </a>
+          <span>•</span>
+          <a href="/terms" className="hover:text-primary transition-colors underline-offset-4 hover:underline">
+            İstifadə şərtləri
+          </a>
+        </div>
       </div>
     </div>
   );
