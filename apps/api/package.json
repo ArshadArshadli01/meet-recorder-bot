@@ -1,0 +1,36 @@
+{
+  "name": "meet-bot-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-contained Fastify API for Meet Bot. Owns its own deps, src, and Dockerfile so it can be deployed independently of the worker and dashboard.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc && node scripts/copy-migrations.mjs",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "migrate": "tsx src/db/migrate.ts",
+    "migrate:built": "node dist/db/migrate.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.750.0",
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/cors": "^11.1.0",
+    "@fastify/static": "^9.1.3",
+    "bullmq": "^5.34.5",
+    "dotenv": "^16.4.7",
+    "fastify": "^5.2.1",
+    "firebase-admin": "^13.6.0",
+    "ioredis": "^5.4.2",
+    "mysql2": "^3.15.3",
+    "socket.io": "^4.8.3",
+    "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

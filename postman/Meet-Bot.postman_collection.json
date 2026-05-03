@@ -1,0 +1,116 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-meet-bot-api",
+    "name": "Meet Bot",
+    "description": "API for the Google Meet recorder. Set `baseUrl` (default http://localhost:3000). **Production:** set `INTERNAL_API_KEY` on the server and assign the same value to collection variable `internalApiKey` — send it as `Authorization: Bearer {{internalApiKey}}` on sensitive legacy routes (all requests below except Health). Cookie-authenticated dashboard traffic uses `/me/bots` and does not need this header.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "botId", "value": "" },
+    { "key": "internalApiKey", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Queue stats (debug)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{internalApiKey}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}/queue",
+        "description": "Shows BullMQ job counts. If `waiting` stays high, the worker is not consuming (wrong Redis or worker down). Requires INTERNAL_API_KEY when configured on the server."
+      }
+    },
+    {
+      "name": "List all bots",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{internalApiKey}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}/bots?limit=100",
+        "description": "Lists jobs with `times_in_meet` (1 once bot reaches lobby/in-call/recording), `processing_attempts`, states, timestamps. Requires INTERNAL_API_KEY when configured."
+      }
+    },
+    {
+      "name": "Clear entire queue",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{internalApiKey}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}/queue/clear",
+        "description": "Destroys all BullMQ jobs and Redis keys `meet-bot:*` (cancel flags, times-in-meet). Active workers may error until idle. Requires INTERNAL_API_KEY when configured."
+      }
+    },
+    {
+      "name": "Create bot (queue recording)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{internalApiKey}}", "type": "text" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"meeting_url\": \"https://meet.google.com/xxx-yyyy-zzz\",\n  \"bot_name\": \"Meet Bot\"\n}"
+        },
+        "url": "{{baseUrl}}/bots",
+        "description": "Returns 202 with `bot_id`. When INTERNAL_API_KEY is set, anonymous calls must include it; otherwise sign in and use POST /me/bots. Copy `botId` into the collection variable for the other requests."
+      }
+    },
+    {
+      "name": "Get bot status",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{internalApiKey}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}/bots/{{botId}}",
+        "description": "When the job is `completed`, `result` is enriched from disk. Requires job owner session cookie OR INTERNAL_API_KEY when configured."
+      }
+    },
+    {
+      "name": "Get recording (redirect or WebM)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{internalApiKey}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}/bots/{{botId}}/recording",
+        "description": "If Spaces upload succeeded, returns 302 to public URL. Otherwise streams WebM. Same auth as status."
+      }
+    },
+    {
+      "name": "Cancel recording (stop bot)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{internalApiKey}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}/bots/{{botId}}/cancel",
+        "description": "Sets a Redis flag so the worker closes Chromium within seconds while recording/joining. Same auth as status."
+      }
+    },
+    {
+      "name": "Delete bot job",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{internalApiKey}}", "type": "text" }
+        ],
+        "url": "{{baseUrl}}/bots/{{botId}}",
+        "description": "Completed/failed/waiting: removes job. Active: requests cancel (202). Same auth as status."
+      }
+    }
+  ]
+}

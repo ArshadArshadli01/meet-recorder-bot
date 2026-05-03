@@ -1,0 +1,335 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  /**
+   * Light theme — calm slate background with a deep indigo primary so the bot
+   * lifecycle states (waiting/active/completed/failed) stay legible.
+   */
+  --background: 220 25% 98%;
+  --foreground: 222 47% 11%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+
+  --primary: 224 76% 56%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 220 14% 95%;
+  --secondary-foreground: 222 47% 11%;
+
+  --muted: 220 14% 95%;
+  --muted-foreground: 220 9% 46%;
+
+  --accent: 224 80% 96%;
+  --accent-foreground: 224 76% 35%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+
+  --success: 152 70% 41%;
+  --success-foreground: 0 0% 100%;
+
+  --warning: 38 92% 50%;
+  --warning-foreground: 222 47% 11%;
+
+  --border: 220 13% 90%;
+  --input: 220 13% 90%;
+  --ring: 224 76% 56%;
+
+  --radius: 0.85rem;
+
+  --shadow-card: 0 4px 24px -8px hsla(220, 30%, 30%, 0.08);
+  --shadow-elevated: 0 18px 45px -16px hsla(220, 35%, 20%, 0.18);
+}
+
+.dark {
+  --background: 224 47% 7%;
+  --foreground: 220 30% 96%;
+
+  --card: 224 40% 11%;
+  --card-foreground: 220 30% 96%;
+
+  --popover: 224 40% 11%;
+  --popover-foreground: 220 30% 96%;
+
+  --primary: 224 80% 66%;
+  --primary-foreground: 224 47% 7%;
+
+  --secondary: 224 30% 16%;
+  --secondary-foreground: 220 25% 92%;
+
+  --muted: 224 30% 16%;
+  --muted-foreground: 220 14% 65%;
+
+  --accent: 224 50% 22%;
+  --accent-foreground: 220 30% 96%;
+
+  --destructive: 0 70% 55%;
+  --destructive-foreground: 0 0% 100%;
+
+  --success: 152 60% 50%;
+  --success-foreground: 224 47% 7%;
+
+  --warning: 38 90% 60%;
+  --warning-foreground: 224 47% 7%;
+
+  --border: 224 25% 22%;
+  --input: 224 25% 22%;
+  --ring: 224 80% 66%;
+
+  --shadow-card: 0 4px 24px -8px hsla(220, 50%, 4%, 0.55);
+  --shadow-elevated: 0 18px 45px -16px hsla(220, 50%, 4%, 0.65);
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-elevated: var(--shadow-elevated);
+
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  html,
+  body {
+    height: 100%;
+  }
+  /**
+   * Two soft radial accents anchored to the viewport (`background-attachment:
+   * fixed`) so a long page does not stretch / repeat the gradient like the old
+   * notifications feed did. Subtle (10–14% alpha) so they read as ambient
+   * lighting and not as page sections.
+   */
+  body {
+    background-color: hsl(var(--background));
+    background-image:
+      radial-gradient(60vw 60vh at 8% -8%, hsla(224, 80%, 60%, 0.12), transparent 60%),
+      radial-gradient(55vw 55vh at 92% -12%, hsla(152, 70%, 50%, 0.08), transparent 60%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  .dark body {
+    background-image:
+      radial-gradient(60vw 60vh at 8% -8%, hsla(224, 80%, 60%, 0.16), transparent 60%),
+      radial-gradient(55vw 55vh at 92% -12%, hsla(152, 70%, 50%, 0.10), transparent 60%);
+  }
+
+  /**
+   * Tailwind v4 dropped the user-agent `cursor: pointer` reset on `<button>`
+   * and on `[role="button"]`. Restore it (matches the user's expectation that
+   * every actionable element shows the pointer cursor).
+   */
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  summary {
+    cursor: pointer;
+  }
+  button:disabled,
+  [role="button"][aria-disabled="true"],
+  [type="button"]:disabled,
+  [type="submit"]:disabled,
+  [type="reset"]:disabled {
+    cursor: not-allowed;
+  }
+}
+
+/* Mirrors pakemlak's drawer animation utilities so the right-side panel
+   slides in/out with a matching backdrop fade. */
+@keyframes mb-drawer-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes mb-drawer-backdrop-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes mb-drawer-panel-in {
+  from { transform: translate3d(100%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+@keyframes mb-drawer-panel-out {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(100%, 0, 0); }
+}
+
+@utility animate-drawer-backdrop {
+  animation: mb-drawer-backdrop-in 0.24s ease-out forwards;
+}
+@utility animate-drawer-backdrop-out {
+  animation: mb-drawer-backdrop-out 0.18s ease-in forwards;
+}
+@utility animate-drawer-panel {
+  animation: mb-drawer-panel-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform;
+}
+@utility animate-drawer-panel-out {
+  animation: mb-drawer-panel-out 0.22s cubic-bezier(0.32, 0, 0.67, 0) forwards;
+  will-change: transform;
+}
+
+/* Centered modal animations (used for notification detail / dialogs). */
+@keyframes mb-modal-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes mb-modal-panel-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@utility animate-modal-backdrop {
+  animation: mb-modal-backdrop-in 0.2s ease-out forwards;
+}
+@utility animate-modal-panel {
+  animation: mb-modal-panel-in 0.22s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-drawer-backdrop,
+  .animate-drawer-backdrop-out,
+  .animate-drawer-panel,
+  .animate-drawer-panel-out,
+  .animate-modal-backdrop,
+  .animate-modal-panel {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/** Skeleton — GPU-friendly horizontal shimmer (smoother than opacity pulse). */
+@keyframes mb-skeleton-shimmer {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@utility animate-skeleton-shimmer {
+  animation: mb-skeleton-shimmer 1.55s ease-in-out infinite;
+}
+
+/** Shown when real content replaces skeletons so the swap feels intentional, not a flash. */
+@keyframes mb-content-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@utility animate-content-fade-in {
+  animation: mb-content-fade-in 0.42s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-skeleton-shimmer {
+    animation: none !important;
+  }
+  .animate-content-fade-in {
+    animation: none !important;
+    opacity: 1;
+  }
+}
+
+/**
+ * Material-style ripple — a single radial pulse from the click point.
+ * `Button` injects a `<span>` per click with these vars set inline; the span
+ * removes itself when the keyframe ends.
+ *
+ * Two-stage curve: the wave grows quickly to ~70% of its final size while
+ * staying near full opacity, then eases out the rest of the way while
+ * fading. This gives a clearer "splash" feel than a single linear opacity
+ * fade and matches how Material-UI v6 (`@mui/material`) tunes its `Ripple`.
+ */
+@keyframes mb-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.55;
+  }
+  60% {
+    transform: scale(1.6);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.mb-ripple-host {
+  position: relative;
+  overflow: hidden;
+}
+
+.mb-ripple {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: currentColor;
+  width: var(--ripple-size, 100px);
+  height: var(--ripple-size, 100px);
+  left: var(--ripple-x, 0);
+  top: var(--ripple-y, 0);
+  transform: scale(0);
+  /**
+   * 900ms is in the sweet spot — fast enough that the user doesn't perceive
+   * lag on the next click, slow enough that the wave reads as a deliberate
+   * confirmation and not a flicker. The MUI default is 550ms but ours is
+   * larger because most of our buttons are wide (Cards/list rows), so the
+   * wave physically travels further.
+   */
+  animation: mb-ripple 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mb-ripple {
+    animation-duration: 1ms !important;
+    opacity: 0 !important;
+  }
+}

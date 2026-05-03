@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.next/
+data/
+.env
+*.log
+tsconfig.tsbuildinfo
+BUILD_INFO.json
