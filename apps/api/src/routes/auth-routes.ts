@@ -96,8 +96,21 @@ export async function registerAuthRoutes(app: FastifyInstance): Promise<void> {
         reply.code(400);
         return { error: "Missing code or state from Google." };
       }
-      const stateCookie = req.unsignCookie(req.cookies[OAUTH_STATE_COOKIE] ?? "");
+      const rawStateCookie = req.cookies[OAUTH_STATE_COOKIE] ?? "";
+      const stateCookie = req.unsignCookie(rawStateCookie);
       if (!stateCookie.valid || stateCookie.value !== state) {
+        req.log.warn(
+          {
+            hasCookie: !!rawStateCookie,
+            cookieValid: stateCookie.valid,
+            cookieValue: stateCookie.value?.slice(0, 8) ?? null,
+            queryState: state?.slice(0, 8) ?? null,
+            protocol: req.protocol,
+            host: req.hostname,
+            allCookieKeys: Object.keys(req.cookies),
+          },
+          "oauth_state_mismatch"
+        );
         clearAuthCookies(req, reply);
         reply.code(400);
         return { error: "OAuth state mismatch — possible CSRF; please retry login." };

@@ -51,7 +51,7 @@ function LandingPage() {
             href="/login"
             className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition hover:brightness-110"
           >
-            Sign In
+            Daxil ol
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -69,10 +69,8 @@ function LandingPage() {
           </h1>
 
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-            Automate your Google Meet recordings with a secure, self-hosted bot.
-            Meet Bot joins your meetings, records audio &amp; video, uploads to
-            Google Drive, and delivers real-time status updates — so you can
-            focus on the conversation.
+            Google Meet görüşlərinizi təhlükəsiz və öz serverinizdə yerləşən bot ilə avtomatlaşdırın.
+            Meet Bot görüşlərinizə qoşulur, səs və videonu yazır, Google Diskə yükləyir və real vaxt rejimində status yeniləmələrini təqdim edir — beləliklə, siz diqqətinizi söhbətə cəmləyə bilərsiniz.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
@@ -80,7 +78,7 @@ function LandingPage() {
               href="/login"
               className="inline-flex h-11 items-center gap-2 rounded-lg bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/30 transition hover:brightness-110"
             >
-              Get Started
+              Başlayın
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a
@@ -89,7 +87,7 @@ function LandingPage() {
               rel="noopener noreferrer"
               className="inline-flex h-11 items-center gap-2 rounded-lg border border-border px-6 text-sm font-semibold transition hover:bg-muted"
             >
-              View on GitHub
+              GitHub-da baxın
               <ExternalLink className="h-4 w-4" />
             </a>
           </div>
@@ -98,26 +96,23 @@ function LandingPage() {
           <div className="mt-14 grid gap-6 text-left sm:grid-cols-3">
             <div className="rounded-xl border border-border/60 bg-card/60 p-5 shadow-sm backdrop-blur">
               <Video className="mb-3 h-6 w-6 text-primary" />
-              <h3 className="font-semibold">Auto-Record</h3>
+              <h3 className="font-semibold">Avtomatik Yazma</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                Bot joins your Google Meet, records audio &amp; video
-                automatically, and saves the file when the meeting ends.
+                Bot Google Meet görüşünüzə qoşulur, səs və videonu avtomatik yazır və görüş bitdikdə faylı saxlayır.
               </p>
             </div>
             <div className="rounded-xl border border-border/60 bg-card/60 p-5 shadow-sm backdrop-blur">
               <HardDrive className="mb-3 h-6 w-6 text-primary" />
-              <h3 className="font-semibold">Cloud Upload</h3>
+              <h3 className="font-semibold">Bulud Yükləmə</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                Recordings are uploaded to your Google Drive or S3-compatible
-                storage with one click.
+                Yazılar bir kliklə Google Diskə və ya S3 uyğun yaddaşa yüklənir.
               </p>
             </div>
             <div className="rounded-xl border border-border/60 bg-card/60 p-5 shadow-sm backdrop-blur">
               <ShieldCheck className="mb-3 h-6 w-6 text-primary" />
-              <h3 className="font-semibold">Secure &amp; Self-Hosted</h3>
+              <h3 className="font-semibold">Təhlükəsiz və Özəl Yerləşdirmə</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                Open-source and self-hosted — your data stays on your own
-                servers. OAuth tokens are encrypted at rest.
+                Açıq mənbəli və öz serverinizdə — məlumatlarınız öz serverlərinizdə qalır. OAuth tokenləri şifrələnmiş şəkildə saxlanılır.
               </p>
             </div>
           </div>
@@ -126,19 +121,19 @@ function LandingPage() {
 
       {/* ─── Footer with Privacy Policy + Terms (visible to crawlers) ─── */}
       <footer className="border-t border-border/40 px-6 py-8 text-center text-sm text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Arshadli. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Arshadli. Bütün hüquqlar qorunur.</p>
         <nav className="mt-3 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           <a
             href="/privacy-policy"
             className="font-medium underline underline-offset-4 transition-colors hover:text-primary"
           >
-            Privacy Policy
+            Məxfilik Siyasəti
           </a>
           <a
             href="/terms"
             className="font-medium underline underline-offset-4 transition-colors hover:text-primary"
           >
-            Terms of Service
+            İstifadə Şərtləri
           </a>
           <a
             href="https://github.com/ArshadArshadli01/meet-recorder-bot"
@@ -149,18 +144,17 @@ function LandingPage() {
             GitHub
           </a>
         </nav>
-        <p className="mt-4 text-xs text-muted-foreground/60">
-          Meet Bot&apos;s use and transfer of information received from Google APIs
-          adheres to the{" "}
+        <p className="mt-4 text-xs text-muted-foreground/60 max-w-2xl mx-auto leading-relaxed">
+          Meet Bot-un Google API-lərdən alınan məlumatlardan istifadəsi və ötürülməsi,{" "}
           <a
             href="https://developers.google.com/terms/api-services-user-data-policy"
             target="_blank"
             rel="noopener noreferrer"
             className="underline underline-offset-2 hover:text-primary"
           >
-            Google API Services User Data Policy
+            Google API Xidmətləri İstifadəçi Məlumatı Siyasətinə
           </a>
-          , including the Limited Use requirements.
+          , o cümlədən Məhdud İstifadə (Limited Use) tələblərinə uyğundur.
         </p>
       </footer>
     </div>

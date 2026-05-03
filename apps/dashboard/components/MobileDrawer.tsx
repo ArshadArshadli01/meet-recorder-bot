@@ -266,14 +266,14 @@ export function MobileDrawer({
               Çıxış
             </button>
             <div className="mt-6 flex flex-col items-center gap-2 text-[10px] text-muted-foreground/60">
-              <p>&copy; 2026 Arshadli. All rights reserved.</p>
+              <p>&copy; 2026 Arshadli. Bütün hüquqlar qorunur.</p>
               <div className="flex gap-4">
                 <Link href="/privacy-policy" onClick={startClose} className="hover:text-primary">
-                  Privacy Policy
+                  Məxfilik Siyasəti
                 </Link>
                 <span>•</span>
                 <Link href="/terms" onClick={startClose} className="hover:text-primary">
-                  Terms of Service
+                  İstifadə Şərtləri
                 </Link>
               </div>
             </div>

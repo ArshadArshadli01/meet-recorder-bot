@@ -17,99 +17,99 @@ export default function PrivacyPage() {
           <Link href="/">
             <Button variant="ghost" className="gap-2">
               <ArrowLeft className="w-4 h-4" />
-              Back to Dashboard
+              Geri qayıt
             </Button>
           </Link>
           <div className="text-sm text-muted-foreground">
-            Last updated: {lastUpdated}
+            Son yenilənmə: {lastUpdated}
           </div>
         </div>
 
         <Card className="border-none shadow-elevated">
           <CardHeader className="border-b border-border/50 px-8 py-10 text-center">
-            <CardTitle className="text-3xl font-bold tracking-tight">Privacy Policy</CardTitle>
+            <CardTitle className="text-3xl font-bold tracking-tight">Məxfilik Siyasəti</CardTitle>
             <p className="text-muted-foreground mt-2">
-              How we handle your meeting data and protect your privacy.
+              Görüş məlumatlarınızla necə rəftar etdiyimiz və məxfiliyinizi necə qoruduğumuz haqqında.
             </p>
           </CardHeader>
           <CardContent className="p-8 prose prose-slate dark:prose-invert max-w-none">
             <section className="mb-10">
-              <h2 className="text-xl font-semibold mb-4">1. Introduction</h2>
+              <h2 className="text-xl font-semibold mb-4">1. Giriş</h2>
               <p>
-                Welcome to Meet Recorder Bot ("we", "our", or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, and safeguard your data when you use our meeting recording and transcription services.
+                Meet Recorder Bot-a ("biz", "bizim" və ya "bizi") xoş gəlmisiniz. Biz sizin şəxsi məlumatlarınızı və məxfilik hüququnuzu qorumağa sadiqik. Bu Məxfilik Siyasəti görüş yazma və transkripsiya xidmətlərimizdən istifadə etdiyiniz zaman məlumatlarınızı necə topladığımızı, istifadə etdiyimizi və qoruduğumuzu izah edir.
               </p>
             </section>
 
             <section className="mb-10">
-              <h2 className="text-xl font-semibold mb-4">2. Information We Collect</h2>
-              <p>When you use our service, we may collect the following types of information:</p>
+              <h2 className="text-xl font-semibold mb-4">2. Topladığımız Məlumatlar</h2>
+              <p>Xidmətimizdən istifadə etdiyiniz zaman aşağıdakı növ məlumatları toplaya bilərik:</p>
               <ul className="list-disc pl-6 mt-2 space-y-2 text-muted-foreground">
-                <li><strong>Audio and Video Content:</strong> We record the audio and video streams of the meetings you invite our bot to.</li>
-                <li><strong>Meeting Metadata:</strong> Information about the meeting, including title, duration, participant names, and timestamps.</li>
-                <li><strong>Account Information:</strong> If you create an account, we collect your email address and basic profile information.</li>
-                <li><strong>Transcription Data:</strong> Text generated from the audio recordings for the purpose of creating notes and summaries.</li>
+                <li><strong>Audio və Video Məzmun:</strong> Botumuzu dəvət etdiyiniz görüşlərin audio və video axınlarını yazırıq.</li>
+                <li><strong>Görüş Metaməlumatları:</strong> Başlıq, müddət, iştirakçı adları və vaxt möhürləri daxil olmaqla görüş haqqında məlumatlar.</li>
+                <li><strong>Hesab Məlumatları:</strong> Hesab yaratsanız, e-poçt ünvanınızı və əsas profil məlumatlarınızı toplayırıq.</li>
+                <li><strong>Transkripsiya Məlumatları:</strong> Qeydlər və xülasələr yaratmaq məqsədilə audio yazılardan yaradılan mətn.</li>
               </ul>
             </section>
 
             <section className="mb-10">
-              <h2 className="text-xl font-semibold mb-4">3. How We Use Your Information</h2>
-              <p>We use the collected information for the following purposes:</p>
+              <h2 className="text-xl font-semibold mb-4">3. Məlumatlarınızı Necə İstifadə Edirik</h2>
+              <p>Toplanmış məlumatları aşağıdakı məqsədlər üçün istifadə edirik:</p>
               <ul className="list-disc pl-6 mt-2 space-y-2 text-muted-foreground">
-                <li>To provide, operate, and maintain our service.</li>
-                <li>To process audio and video recordings to generate transcripts and meeting summaries.</li>
-                <li>To improve our AI models and service performance (using anonymized data).</li>
-                <li>To communicate with you regarding your account and service updates.</li>
+                <li>Xidmətimizi təmin etmək, idarə etmək və qorumaq üçün.</li>
+                <li>Transkriptlər və görüş xülasələri yaratmaq üçün audio və video yazılarını emal etmək üçün.</li>
+                <li>Süni intellekt modellərimizi və xidmət performansımızı təkmilləşdirmək üçün (anonimləşdirilmiş məlumatlardan istifadə etməklə).</li>
+                <li>Hesabınız və xidmət yeniləmələri ilə bağlı sizinlə əlaqə saxlamaq üçün.</li>
               </ul>
             </section>
 
             <section className="mb-10">
-              <h2 className="text-xl font-semibold mb-4">4. Data Storage and Security</h2>
+              <h2 className="text-xl font-semibold mb-4">4. Məlumatların Saxlanması və Təhlükəsizliyi</h2>
               <p>
-                Your data is stored securely using industry-standard encryption methods. We implement a variety of security measures to maintain the safety of your personal information. Meeting recordings are stored in secure cloud environments and are only accessible by authorized users.
+                Məlumatlarınız sənaye standartlı şifrələmə üsullarından istifadə edilərək təhlükəsiz şəkildə saxlanılır. Şəxsi məlumatlarınızın təhlükəsizliyini təmin etmək üçün müxtəlif təhlükəsizlik tədbirləri həyata keçiririk. Görüş yazıları təhlükəsiz bulud mühitlərində saxlanılır və yalnız səlahiyyətli istifadəçilər tərəfindən əldə edilə bilər.
               </p>
             </section>
 
             <section className="mb-10">
-              <h2 className="text-xl font-semibold mb-4">5. Data Sharing</h2>
+              <h2 className="text-xl font-semibold mb-4">5. Məlumatların Paylaşılması</h2>
               <p>
-                We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. This does not include trusted third parties who assist us in operating our website, conducting our business, or servicing you, so long as those parties agree to keep this information confidential.
+                Biz sizin şəxsi məlumatlarınızı kənar tərəflərə satmırıq, ticarətini etmirik və ya başqa şəkildə ötürmürük. Bura veb saytımızı idarə etməkdə, işimizi aparmaqda və ya sizə xidmət göstərməkdə bizə kömək edən etibarlı üçüncü tərəflər daxil deyil, bir şərtlə ki, həmin tərəflər bu məlumatların məxfi saxlanmasına razı olsunlar.
               </p>
             </section>
 
             <section className="mb-10">
-              <h2 className="text-xl font-semibold mb-4">6. Your Rights</h2>
+              <h2 className="text-xl font-semibold mb-4">6. Hüquqlarınız</h2>
               <p>
-                Depending on your location, you may have the right to access, correct, or delete your personal data. You can request the deletion of your account and associated meeting data at any time through the dashboard settings.
+                Yerləşdiyiniz yerdən asılı olaraq, şəxsi məlumatlarınıza daxil olmaq, onları düzəltmək və ya silmək hüququnuz ola bilər. İstənilən vaxt idarəetmə paneli (dashboard) parametrləri vasitəsilə hesabınızın və əlaqəli görüş məlumatlarınızın silinməsini tələb edə bilərsiniz.
               </p>
             </section>
 
             <section className="mb-10">
-              <h2 className="text-xl font-semibold mb-4">7. Google API Services User Data Policy</h2>
+              <h2 className="text-xl font-semibold mb-4">7. Google API Xidmətləri İstifadəçi Məlumatı Siyasəti</h2>
               <p>
-                Meet Recorder Bot&apos;s use and transfer of information received from Google APIs to any other app will adhere to the{" "}
+                Meet Recorder Bot-un Google API-lərdən alınan məlumatlardan istifadəsi və digər hər hansı proqrama ötürülməsi, Məhdud İstifadə (Limited Use) tələbləri daxil olmaqla,{" "}
                 <a
                   href="https://developers.google.com/terms/api-services-user-data-policy"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary underline underline-offset-2 hover:text-primary/80"
                 >
-                  Google API Services User Data Policy
-                </a>
-                , including the Limited Use requirements.
+                  Google API Xidmətləri İstifadəçi Məlumatı Siyasətinə
+                </a>{" "}
+                uyğun olacaq.
               </p>
-              <p className="mt-3">Specifically:</p>
+              <p className="mt-3">Xüsusilə:</p>
               <ul className="list-disc pl-6 mt-2 space-y-2 text-muted-foreground">
-                <li>We only request access to the Google API scopes necessary to provide our recording and file-upload features (Google Drive file creation, user profile for authentication).</li>
-                <li>We do not use Google user data for serving advertisements.</li>
-                <li>We do not allow humans to read your Google user data unless (a) we have your explicit consent, (b) it is necessary for security purposes, (c) it is necessary to comply with applicable law, or (d) our use is limited to internal operations and the data has been aggregated and anonymized.</li>
-                <li>We do not transfer Google user data to third parties except as necessary to provide the service, with your consent, or for legal or security reasons.</li>
+                <li>Biz yalnız yazma və fayl yükləmə funksiyalarımızı təmin etmək üçün lazım olan Google API sahələrinə (Google Disk fayl yaradılması, autentifikasiya üçün istifadəçi profili) daxil olmağı tələb edirik.</li>
+                <li>Biz Google istifadəçi məlumatlarını reklam nümayiş etdirmək üçün istifadə etmirik.</li>
+                <li>Biz insanlara sizin Google istifadəçi məlumatlarınızı oxumağa icazə vermirik, yalnız bu hallar istisnadır: (a) sizin açıq razılığınız olduqda, (b) təhlükəsizlik məqsədləri üçün zəruri olduqda, (c) qüvvədə olan qanunvericiliyə əməl etmək üçün zəruri olduqda və ya (d) istifadəmiz daxili əməliyyatlarla məhdudlaşdıqda və məlumatlar aqreqasiya edilmiş və anonimləşdirilmiş olduqda.</li>
+                <li>Biz Google istifadəçi məlumatlarını xidmət göstərmək üçün zəruri olan hallar, sizin razılığınız və ya hüquqi/təhlükəsizlik səbəbləri istisna olmaqla, üçüncü tərəflərə ötürmürük.</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-4">8. Contact Us</h2>
+              <h2 className="text-xl font-semibold mb-4">8. Bizimlə Əlaqə</h2>
               <p>
-                If you have any questions about this Privacy Policy, please contact our support team.
+                Bu Məxfilik Siyasəti ilə bağlı hər hansı bir sualınız varsa, lütfən dəstək komandamızla əlaqə saxlayın.
               </p>
             </section>
           </CardContent>

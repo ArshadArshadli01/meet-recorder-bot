@@ -35,7 +35,7 @@ import { sweepDueLocalRecordingPurges } from "./local-recording-purge.js";
 
 process.stdout.write(`${buildInfoLogLine("api")}\n`);
 
-const app = Fastify({ logger: true });
+const app = Fastify({ logger: true, trustProxy: true });
 
 /** Qonaqlar ötrü anonim keçid bağlanır — yalnız sessiya ilə iş sahibi yükləyə bilər. İstəsəniz INTERNAL_API_KEY ilə operator girişi. */
 async function assertRecordingOwnerAccess(

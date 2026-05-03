@@ -213,6 +213,10 @@ export const api = {
 };
 
 export function loginUrl(returnTo: string): string {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") || "";
+  if (baseUrl) {
+    return `${baseUrl}/auth/google/start?return=${encodeURIComponent(returnTo)}`;
+  }
   return `/api/auth/google/start?return=${encodeURIComponent(returnTo)}`;
 }
 
