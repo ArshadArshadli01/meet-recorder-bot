@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   appleWebApp: {
     title: "Meet Bot",
   },
+  verification: {
+    google: "-QbS1vs4KD4OEnkjbdecfiMQzMHpmgGOgvRDJw29HC0",
+  },
   openGraph: {
     title: "Meet Bot",
     description: "Automate your meeting notes with AI",
