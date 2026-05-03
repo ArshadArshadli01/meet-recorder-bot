@@ -151,6 +151,16 @@ export function SideNav({
             <span className="min-w-0 flex-1 text-left">Çıxış</span>
           </button>
         </div>
+
+        <div className="px-3 pb-2 text-[10px] text-muted-foreground/60 flex gap-3">
+          <Link href="/privacy" className="hover:text-primary transition-colors">
+            Gizlilik
+          </Link>
+          <span>•</span>
+          <Link href="/terms" className="hover:text-primary transition-colors">
+            Şərtlər
+          </Link>
+        </div>
       </div>
     </aside>
   );

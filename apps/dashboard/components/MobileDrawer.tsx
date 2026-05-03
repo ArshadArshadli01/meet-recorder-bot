@@ -265,6 +265,15 @@ export function MobileDrawer({
               <LogOut className="h-4 w-4" />
               Çıxış
             </button>
+            <div className="mt-4 flex justify-center gap-4 text-[10px] text-muted-foreground/60">
+              <Link href="/privacy" onClick={startClose} className="hover:text-primary">
+                Gizlilik
+              </Link>
+              <span>•</span>
+              <Link href="/terms" onClick={startClose} className="hover:text-primary">
+                Şərtlər
+              </Link>
+            </div>
           </div>
         </aside>
       </div>
