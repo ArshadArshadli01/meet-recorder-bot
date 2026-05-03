@@ -8,7 +8,6 @@ import { PageProgressBar } from "../components/PageProgressBar";
 export const metadata: Metadata = {
   title: "Meet Bot",
   description: "Secure meeting recording dashboard",
-  google: "notranslate",
   icons: {
     icon: [
       { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
@@ -34,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="az" suppressHydrationWarning className="notranslate">
+    <html lang="az" suppressHydrationWarning className="notranslate" translate="no">
       <head>
         <meta name="google" content="notranslate" />
       </head>
