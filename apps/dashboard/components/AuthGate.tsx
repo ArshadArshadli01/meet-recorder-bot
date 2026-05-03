@@ -45,6 +45,9 @@ export function AuthGate({
     let cancelled = false;
     const run = async () => {
       try {
+        // Fetch status to discover the public API URL (for OAuth redirects)
+        void api.authStatus().catch(() => {});
+        
         const me: AuthMe = await api.me();
         if (cancelled) return;
         if (me.authenticated) setState({ status: "authenticated", user: me.user });

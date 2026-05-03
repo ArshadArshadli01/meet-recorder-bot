@@ -137,8 +137,14 @@ async function request<T>(input: string, init?: RequestInit): Promise<T> {
   return (await res.json()) as T;
 }
 
+let discoveredPublicBaseUrl = "";
+
 export const api = {
-  authStatus: () => request<AuthStatus>("/auth/status"),
+  authStatus: async () => {
+    const res = await request<AuthStatus>("/auth/status");
+    if (res.publicBaseUrl) discoveredPublicBaseUrl = res.publicBaseUrl.replace(/\/$/, "");
+    return res;
+  },
   me: () => request<AuthMe>("/auth/me"),
   logout: () => request<{ ok: true }>("/auth/logout", { method: "POST" }),
   config: () => request<AppConfig>("/me/config"),
@@ -213,7 +219,7 @@ export const api = {
 };
 
 export function loginUrl(returnTo: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") || "";
+  const baseUrl = discoveredPublicBaseUrl || process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") || "";
   if (baseUrl) {
     return `${baseUrl}/auth/google/start?return=${encodeURIComponent(returnTo)}`;
   }
