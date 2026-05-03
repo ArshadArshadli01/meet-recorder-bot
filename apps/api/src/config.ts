@@ -209,6 +209,23 @@ export const config = {
    */
   dataEncKey: process.env.DATA_ENC_KEY?.trim() || "",
   dataEncKeyVersion: process.env.DATA_ENC_KEY_VERSION?.trim() || "v1",
+  /**
+   * Root domain for session cookies (e.g. `.arshadli.me`). If unset, cookies are locked
+   * to the exact subdomain that sets them (which breaks cross-subdomain dashboard logins).
+   */
+  cookieDomain: (() => {
+    const raw = process.env.COOKIE_DOMAIN?.trim();
+    if (raw) return raw;
+    const origin = process.env.DASHBOARD_ORIGIN?.trim() || "";
+    if (!origin || origin.includes("localhost") || origin.includes("127.0.0.1")) return undefined;
+    try {
+      const url = new URL(origin);
+      const parts = url.hostname.split(".");
+      // If hostname is "meet-bot-demo.arshadli.me", return ".arshadli.me"
+      if (parts.length >= 2) return `.${parts.slice(-2).join(".")}`;
+    } catch { /* ignore */ }
+    return undefined;
+  })(),
   mysqlHost: process.env.DB_HOST?.trim() || process.env.MYSQL_HOST?.trim() || "127.0.0.1",
   mysqlPort: Number(process.env.DB_PORT ?? process.env.MYSQL_PORT ?? "3306"),
   mysqlUser: process.env.DB_USERNAME?.trim() || process.env.MYSQL_USER?.trim() || "root",

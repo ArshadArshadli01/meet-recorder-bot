@@ -32,6 +32,7 @@ function cookieOptions(req: FastifyRequest) {
     sameSite: "lax" as const,
     secure: req.protocol === "https",
     signed: true,
+    domain: config.cookieDomain,
   };
 }
 
