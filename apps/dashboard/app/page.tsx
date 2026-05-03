@@ -4,19 +4,21 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
+  ArrowRight,
   ChevronDown,
   Cloud,
   ExternalLink,
   HardDrive,
   Loader2,
   Plus,
+  ShieldCheck,
   Trash2,
   Video,
 } from "lucide-react";
 import { toast } from "sonner";
 import { api, type BotSnapshot } from "../lib/api";
 import { subscribeJobEvents } from "../lib/realtime";
-import { AuthGate, useAuthUser } from "../components/AuthGate";
+import { useAuth, AuthGate, useAuthUser } from "../components/AuthGate";
 import { AppShell } from "../components/AppShell";
 import StatusTag from "../components/StatusTag";
 import NotificationSetup from "../components/NotificationSetup";
@@ -28,6 +30,147 @@ import { useMinimumSkeleton } from "../lib/useMinimumSkeleton";
 import { meetCodeFromUrl } from "../lib/meet-url";
 import { Input } from "../components/ui/Input";
 import { driveFolderWebLink, getVideoLinks } from "../lib/recording-links";
+import { ThemeToggle } from "../components/ThemeToggle";
+
+/* ─────────────────────────────────────────────────────────────────────────
+ *  PUBLIC LANDING PAGE
+ *  Shown to unauthenticated visitors (including Google's verification
+ *  crawler). Contains a clear app description + prominent Privacy Policy
+ *  and Terms of Service links — exactly what Google requires.
+ * ───────────────────────────────────────────────────────────────────────── */
+
+function LandingPage() {
+  return (
+    <div className="relative flex min-h-screen flex-col">
+      {/* ─── Top bar ─── */}
+      <header className="flex items-center justify-between px-6 py-4">
+        <span className="text-lg font-bold tracking-tight">Meet Bot</span>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <Link
+            href="/login"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition hover:brightness-110"
+          >
+            Sign In
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </header>
+
+      {/* ─── Hero ─── */}
+      <main className="flex flex-1 flex-col items-center justify-center px-6 text-center">
+        <div className="mx-auto max-w-2xl">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/30">
+            <Video className="h-8 w-8" />
+          </div>
+
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+            Meet Recorder Bot
+          </h1>
+
+          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+            Automate your Google Meet recordings with a secure, self-hosted bot.
+            Meet Bot joins your meetings, records audio &amp; video, uploads to
+            Google Drive, and delivers real-time status updates — so you can
+            focus on the conversation.
+          </p>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/login"
+              className="inline-flex h-11 items-center gap-2 rounded-lg bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/30 transition hover:brightness-110"
+            >
+              Get Started
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
+              href="https://github.com/ArshadArshadli01/meet-recorder-bot"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-11 items-center gap-2 rounded-lg border border-border px-6 text-sm font-semibold transition hover:bg-muted"
+            >
+              View on GitHub
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </div>
+
+          {/* Feature highlights */}
+          <div className="mt-14 grid gap-6 text-left sm:grid-cols-3">
+            <div className="rounded-xl border border-border/60 bg-card/60 p-5 shadow-sm backdrop-blur">
+              <Video className="mb-3 h-6 w-6 text-primary" />
+              <h3 className="font-semibold">Auto-Record</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Bot joins your Google Meet, records audio &amp; video
+                automatically, and saves the file when the meeting ends.
+              </p>
+            </div>
+            <div className="rounded-xl border border-border/60 bg-card/60 p-5 shadow-sm backdrop-blur">
+              <HardDrive className="mb-3 h-6 w-6 text-primary" />
+              <h3 className="font-semibold">Cloud Upload</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Recordings are uploaded to your Google Drive or S3-compatible
+                storage with one click.
+              </p>
+            </div>
+            <div className="rounded-xl border border-border/60 bg-card/60 p-5 shadow-sm backdrop-blur">
+              <ShieldCheck className="mb-3 h-6 w-6 text-primary" />
+              <h3 className="font-semibold">Secure &amp; Self-Hosted</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Open-source and self-hosted — your data stays on your own
+                servers. OAuth tokens are encrypted at rest.
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* ─── Footer with Privacy Policy + Terms (visible to crawlers) ─── */}
+      <footer className="border-t border-border/40 px-6 py-8 text-center text-sm text-muted-foreground">
+        <p>&copy; {new Date().getFullYear()} Arshadli. All rights reserved.</p>
+        <nav className="mt-3 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          <a
+            href="/privacy-policy"
+            className="font-medium underline underline-offset-4 transition-colors hover:text-primary"
+          >
+            Privacy Policy
+          </a>
+          <a
+            href="/terms"
+            className="font-medium underline underline-offset-4 transition-colors hover:text-primary"
+          >
+            Terms of Service
+          </a>
+          <a
+            href="https://github.com/ArshadArshadli01/meet-recorder-bot"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-primary"
+          >
+            GitHub
+          </a>
+        </nav>
+        <p className="mt-4 text-xs text-muted-foreground/60">
+          Meet Bot&apos;s use and transfer of information received from Google APIs
+          adheres to the{" "}
+          <a
+            href="https://developers.google.com/terms/api-services-user-data-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 hover:text-primary"
+          >
+            Google API Services User Data Policy
+          </a>
+          , including the Limited Use requirements.
+        </p>
+      </footer>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+ *  AUTHENTICATED DASHBOARD
+ *  The existing dashboard (unchanged) — shown only to logged-in users.
+ * ───────────────────────────────────────────────────────────────────────── */
 
 const PAGE_SIZE = 20;
 
@@ -472,12 +615,34 @@ function DashboardInner() {
   );
 }
 
-export default function DashboardPage() {
+/* ─────────────────────────────────────────────────────────────────────────
+ *  PAGE ROUTER
+ *  Shows the landing page OR the dashboard based on auth status.
+ *  The AuthGate wrapper tries /auth/me; if anonymous it shows the
+ *  public landing page instead of redirecting to /login.
+ * ───────────────────────────────────────────────────────────────────────── */
+
+function PageRouter() {
+  const auth = useAuth();
+
+  // Still loading auth state — show nothing (layout footer is always visible)
+  if (auth.status === "loading") return null;
+
+  // Not logged in — show the public landing page
+  if (auth.status === "anonymous") return <LandingPage />;
+
+  // Logged in — show the dashboard
   return (
-    <AuthGate require>
-      <AppShell>
-        <DashboardInner />
-      </AppShell>
+    <AppShell>
+      <DashboardInner />
+    </AppShell>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <AuthGate>
+      <PageRouter />
     </AuthGate>
   );
 }

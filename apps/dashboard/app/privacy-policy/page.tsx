@@ -83,8 +83,31 @@ export default function PrivacyPage() {
               </p>
             </section>
 
+            <section className="mb-10">
+              <h2 className="text-xl font-semibold mb-4">7. Google API Services User Data Policy</h2>
+              <p>
+                Meet Recorder Bot&apos;s use and transfer of information received from Google APIs to any other app will adhere to the{" "}
+                <a
+                  href="https://developers.google.com/terms/api-services-user-data-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline underline-offset-2 hover:text-primary/80"
+                >
+                  Google API Services User Data Policy
+                </a>
+                , including the Limited Use requirements.
+              </p>
+              <p className="mt-3">Specifically:</p>
+              <ul className="list-disc pl-6 mt-2 space-y-2 text-muted-foreground">
+                <li>We only request access to the Google API scopes necessary to provide our recording and file-upload features (Google Drive file creation, user profile for authentication).</li>
+                <li>We do not use Google user data for serving advertisements.</li>
+                <li>We do not allow humans to read your Google user data unless (a) we have your explicit consent, (b) it is necessary for security purposes, (c) it is necessary to comply with applicable law, or (d) our use is limited to internal operations and the data has been aggregated and anonymized.</li>
+                <li>We do not transfer Google user data to third parties except as necessary to provide the service, with your consent, or for legal or security reasons.</li>
+              </ul>
+            </section>
+
             <section>
-              <h2 className="text-xl font-semibold mb-4">7. Contact Us</h2>
+              <h2 className="text-xl font-semibold mb-4">8. Contact Us</h2>
               <p>
                 If you have any questions about this Privacy Policy, please contact our support team.
               </p>
