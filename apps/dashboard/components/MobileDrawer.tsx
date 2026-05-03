@@ -265,14 +265,17 @@ export function MobileDrawer({
               <LogOut className="h-4 w-4" />
               Çıxış
             </button>
-            <div className="mt-4 flex justify-center gap-4 text-[10px] text-muted-foreground/60">
-              <Link href="/privacy" onClick={startClose} className="hover:text-primary">
-                Gizlilik
-              </Link>
-              <span>•</span>
-              <Link href="/terms" onClick={startClose} className="hover:text-primary">
-                Şərtlər
-              </Link>
+            <div className="mt-6 flex flex-col items-center gap-2 text-[10px] text-muted-foreground/60">
+              <p>&copy; 2026 Arshadli. All rights reserved.</p>
+              <div className="flex gap-4">
+                <Link href="/privacy-policy" onClick={startClose} className="hover:text-primary">
+                  Privacy Policy
+                </Link>
+                <span>•</span>
+                <Link href="/terms" onClick={startClose} className="hover:text-primary">
+                  Terms of Service
+                </Link>
+              </div>
             </div>
           </div>
         </aside>

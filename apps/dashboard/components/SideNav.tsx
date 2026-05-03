@@ -152,14 +152,17 @@ export function SideNav({
           </button>
         </div>
 
-        <div className="px-3 pb-2 text-[10px] text-muted-foreground/60 flex gap-3">
-          <Link href="/privacy" className="hover:text-primary transition-colors">
-            Gizlilik
-          </Link>
-          <span>•</span>
-          <Link href="/terms" className="hover:text-primary transition-colors">
-            Şərtlər
-          </Link>
+        <div className="mt-6 flex flex-col items-center gap-2 text-[10px] text-muted-foreground/60 border-t border-border/40 pt-4">
+          <p>&copy; 2026 Arshadli. All rights reserved.</p>
+          <div className="flex gap-4">
+            <Link href="/privacy-policy" className="hover:text-primary transition-colors">
+              Privacy Policy
+            </Link>
+            <span>•</span>
+            <Link href="/terms" className="hover:text-primary transition-colors">
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </div>
     </aside>

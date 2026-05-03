@@ -181,11 +181,14 @@ export function AppShell({ children }: { children: ReactNode }) {
         onOpenDrawer={() => setDrawerOpen(true)}
       />
 
-      <footer className="mt-auto hidden border-t border-border/40 py-4 lg:block">
-        <div className="flex justify-center gap-6 text-[11px] text-muted-foreground/50">
-          <Link href="/privacy" className="hover:text-primary transition-colors">Gizlilik siyasəti</Link>
-          <Link href="/terms" className="hover:text-primary transition-colors">İstifadə şərtləri</Link>
-          <span>© {new Date().getFullYear()} Meet Bot</span>
+      <footer className="mt-auto hidden border-t border-border/40 py-6 lg:block">
+        <div className="flex flex-col items-center gap-2 text-[11px] text-muted-foreground/50">
+          <p>&copy; 2026 Arshadli. All rights reserved.</p>
+          <div className="flex justify-center gap-4">
+            <Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+            <span>•</span>
+            <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+          </div>
         </div>
       </footer>
     </div>

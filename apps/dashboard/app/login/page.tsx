@@ -103,15 +103,18 @@ function LoginInner() {
           </li>
         </ul>
 
-        <div className="mt-8 flex justify-center gap-4 text-xs text-muted-foreground/60">
-          <a href="/privacy" className="hover:text-primary transition-colors underline-offset-4 hover:underline">
-            Gizlilik siyasəti
-          </a>
-          <span>•</span>
-          <a href="/terms" className="hover:text-primary transition-colors underline-offset-4 hover:underline">
-            İstifadə şərtləri
-          </a>
-        </div>
+        <footer className="mt-8 pt-6 border-t border-border/40 text-xs text-muted-foreground/60">
+          <p>&copy; 2026 Arshadli. All rights reserved.</p>
+          <div className="mt-2 flex justify-center gap-4">
+            <a href="/privacy-policy" className="hover:text-primary transition-colors underline-offset-4 hover:underline">
+              Privacy Policy
+            </a>
+            <span>•</span>
+            <a href="/terms" className="hover:text-primary transition-colors underline-offset-4 hover:underline">
+              Terms of Service
+            </a>
+          </div>
+        </footer>
       </div>
     </div>
   );
