@@ -28,6 +28,9 @@ export async function registerStorageRoutes(app: FastifyInstance): Promise<void>
   app.get("/me/storage", async (req, reply) => {
     const userId = await requireUserId(req, reply);
     if (!userId) return;
+    if (config.appDemoMode) {
+      return { configured: false as const, save_disabled: true as const };
+    }
     if (!config.dataEncKey) {
       const hasRow = await userHasObjectStorageRow(userId);
       if (hasRow) {

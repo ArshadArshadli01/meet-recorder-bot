@@ -52,6 +52,22 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
+### Demo Mode (Local Testing)
+
+If you want to test the recording flow **without** setting up Google OAuth, Firebase, or S3 storage, you can use **Demo Mode**. This is ideal for evaluation or open-source contributors:
+
+1. Copy `minimal.env` to `.env`.
+2. Set `MEET_FFMPEG_PATH` to your local ffmpeg path (optional if using Docker).
+3. Run `docker compose up -d --build`.
+
+**In Demo Mode:**
+- **Zero Config**: No Google/S3 keys required.
+- **Auto Login**: The dashboard skips OAuth and logs you in as a "Demo User" (`/default-user.jpg`).
+- **Local-Only**: Google Drive and S3 exports are disabled; recordings are stored strictly in your local `./data` directory.
+- **Feature Guide**: A welcome modal will explain active vs inactive features on your first visit.
+
+This allows you to see the recorder in action immediately. To go to production, set `APP_DEMO_MODE=false` and follow **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**.
+
 Then:
 
 - API → http://localhost:3000

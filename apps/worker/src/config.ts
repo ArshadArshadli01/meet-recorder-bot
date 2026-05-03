@@ -233,6 +233,10 @@ export const config = {
     process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID?.trim() || "",
   nextPublicFirebaseAppId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID?.trim() || "",
   nextPublicFirebaseVapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY?.trim() || "",
+  /**
+   * When true, the worker mocks a successful login and bypasses real OAuth requirements.
+   */
+  appDemoMode: process.env.APP_DEMO_MODE === "true",
 };
 
 export function isAuthConfigured(): boolean {

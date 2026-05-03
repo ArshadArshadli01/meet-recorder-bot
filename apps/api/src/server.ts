@@ -43,6 +43,7 @@ async function assertRecordingOwnerAccess(
   reply: FastifyReply,
   botId: string
 ): Promise<boolean> {
+  if (config.appDemoMode) return true;
   if (config.internalApiKey && internalApiKeyValid(request)) {
     return true;
   }
@@ -556,6 +557,9 @@ async function registerPlugins(): Promise<void> {
     await registerMeBotRoutes(app);
     await registerStorageRoutes(app);
     await registerNotificationRoutes(app);
+    if (config.appDemoMode) {
+      app.log.warn("[server] APP_DEMO_MODE is ACTIVE — mocking successful login");
+    }
     app.log.info("[server] Google OAuth + /me/bots routes enabled");
   } else {
     /** Auth-aware no-op so the SPA can still call /auth/status to learn the server cannot log in. */

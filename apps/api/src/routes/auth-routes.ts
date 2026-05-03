@@ -57,6 +57,7 @@ export async function registerAuthRoutes(app: FastifyInstance): Promise<void> {
   app.get("/auth/status", async () => ({
     configured: isAuthConfigured(),
     publicBaseUrl: config.publicBaseUrl,
+    appDemoMode: config.appDemoMode,
   }));
 
   app.get<{ Querystring: { return?: string } }>("/auth/google/start", async (req, reply) => {
@@ -153,6 +154,21 @@ export async function registerAuthRoutes(app: FastifyInstance): Promise<void> {
   });
 
   app.get("/auth/me", async (req, reply) => {
+    if (config.appDemoMode) {
+      return {
+        authenticated: true,
+        user: {
+          id: "demo-user-id",
+          email: "demo@example.com",
+          name: "Demo User",
+          picture: "/default-user.jpg",
+          givenName: "Demo",
+          familyName: "User",
+          locale: "az",
+          demo: true,
+        },
+      };
+    }
     const sidCookie = req.unsignCookie(req.cookies[SESSION_COOKIE] ?? "");
     if (!sidCookie.valid || !sidCookie.value) {
       reply.code(401);
@@ -194,6 +210,7 @@ export async function requireUserId(
   req: import("fastify").FastifyRequest,
   reply: FastifyReply
 ): Promise<string | null> {
+  if (config.appDemoMode) return "demo-user-id";
   const sidCookie = req.unsignCookie(req.cookies[SESSION_COOKIE] ?? "");
   if (!sidCookie.valid || !sidCookie.value) {
     reply.code(401);

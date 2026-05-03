@@ -16,7 +16,7 @@ import {
 import { toast } from "sonner";
 import { api, type BotSnapshot } from "../lib/api";
 import { subscribeJobEvents } from "../lib/realtime";
-import { AuthGate } from "../components/AuthGate";
+import { AuthGate, useAuthUser } from "../components/AuthGate";
 import { AppShell } from "../components/AppShell";
 import StatusTag from "../components/StatusTag";
 import NotificationSetup from "../components/NotificationSetup";
@@ -52,6 +52,7 @@ function DashboardInner() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [deleteBusy, setDeleteBusy] = useState(false);
   const router = useRouter();
+  const user = useAuthUser();
 
   const loadInitial = useCallback(async () => {
     setBots(null);
@@ -72,6 +73,7 @@ function DashboardInner() {
 
   /** Realtime patches mutate visible rows in-place so we don't fetch again. */
   useEffect(() => {
+    if (user.demo) return;
     const unsub = subscribeJobEvents((evt) => {
       if (evt.kind === "notification") return;
       setBots((prev) => {

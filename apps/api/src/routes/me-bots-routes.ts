@@ -153,8 +153,12 @@ export async function registerMeBotRoutes(app: FastifyInstance): Promise<void> {
     const botName = (body.bot_name ?? "Meet Bot").slice(0, 80);
     const botId = randomUUID();
     /** Form explicit `false` göndərir; köhnə klientlər omit edəndə `!== false` → Drive açıq qalır. */
-    const saveToDrive = body.save_to_drive !== false;
-    const saveToSpaces = body.save_to_spaces === true;
+    let saveToDrive = body.save_to_drive !== false;
+    let saveToSpaces = body.save_to_spaces === true;
+    if (config.appDemoMode) {
+      saveToDrive = false;
+      saveToSpaces = false;
+    }
     const driveFolderId = body.drive_folder_id?.trim() || undefined;
 
     const payload: MeetJobPayload = {
@@ -217,11 +221,17 @@ export async function registerMeBotRoutes(app: FastifyInstance): Promise<void> {
     if (!userId) return;
     const body = req.body ?? {};
     const botName = (body.bot_name ?? "Meet Bot").trim().slice(0, 80);
+    let saveToDrive = body.save_to_drive !== false;
+    let saveToSpaces = body.save_to_spaces === true;
+    if (config.appDemoMode) {
+      saveToDrive = false;
+      saveToSpaces = false;
+    }
     await upsertUserRecordFormDefaults(userId, {
       meeting_url: body.meeting_url ?? null,
       bot_name: botName,
-      save_to_drive: body.save_to_drive !== false,
-      save_to_spaces: body.save_to_spaces === true,
+      save_to_drive: saveToDrive,
+      save_to_spaces: saveToSpaces,
       drive_folder_id: body.drive_folder_id?.trim() || null,
     });
     return { ok: true };

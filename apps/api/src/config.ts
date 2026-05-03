@@ -233,9 +233,15 @@ export const config = {
    * Send as `Authorization: Bearer ...` or `X-API-Key`. Omit only on trusted localhost/dev.
    */
   internalApiKey: process.env.INTERNAL_API_KEY?.trim() || "",
+  /**
+   * When true, the API mocks a successful login and bypasses real OAuth requirements.
+   * Useful for testing the recording flow without setting up Google Cloud / S3.
+   */
+  appDemoMode: process.env.APP_DEMO_MODE === "true",
 };
 
 export function isAuthConfigured(): boolean {
+  if (config.appDemoMode) return true;
   return Boolean(
     config.googleClientId && config.googleClientSecret && config.sessionSecret && config.tokenEncKey
   );

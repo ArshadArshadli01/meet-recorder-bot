@@ -19,7 +19,7 @@ import {
 import { toast } from "sonner";
 import { api, type AppConfig, type BotSnapshot } from "../../../lib/api";
 import { subscribeJobEvents } from "../../../lib/realtime";
-import { AuthGate } from "../../../components/AuthGate";
+import { AuthGate, useAuthUser } from "../../../components/AuthGate";
 import { AppShell } from "../../../components/AppShell";
 import StatusTag from "../../../components/StatusTag";
 import { Button } from "../../../components/ui/Button";
@@ -70,6 +70,7 @@ function BotDetailInner() {
   const [loading, setLoading] = useState(true);
   const [cancelBusy, setCancelBusy] = useState(false);
   const [appConfig, setAppConfig] = useState<AppConfig | null>(null);
+  const user = useAuthUser();
 
   const videoLinks = useMemo(
     () => (bot?.result ? getVideoLinks(bot.bot_id, bot.result) : null),
@@ -161,7 +162,7 @@ function BotDetailInner() {
   }, [id]);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || user.demo) return;
     const unsub = subscribeJobEvents((evt) => {
       if (evt.kind === "notification" || evt.botId !== id) return;
       setBot((prev) => {

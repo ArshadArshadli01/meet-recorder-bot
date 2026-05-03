@@ -70,6 +70,9 @@ export async function requireAuthHook(
   // Allow public routes through without auth
   if (isPublicRoute(url)) return;
 
+  // If in demo mode, bypass security checks for local testing
+  if (config.appDemoMode) return;
+
   // Check INTERNAL_API_KEY (fast, synchronous-ish)
   if (config.internalApiKey && internalApiKeyValid(request)) return;
 

@@ -65,5 +65,9 @@ export function AuthGate({
     router.push(`/login?return=${encodeURIComponent(target)}`);
   }, [require, state.status, pathname, router]);
 
+  if (require && state.status !== "authenticated") {
+    return null; // The useEffect will handle redirect or we'll show a skeleton in AppShell
+  }
+
   return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;
 }

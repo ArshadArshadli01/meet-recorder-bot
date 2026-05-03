@@ -16,7 +16,7 @@ import {
 import { toast } from "sonner";
 import { api, type ObjectStorageInfo } from "../../lib/api";
 import { cn } from "../../lib/utils";
-import { AuthGate } from "../../components/AuthGate";
+import { AuthGate, useAuthUser } from "../../components/AuthGate";
 import { AppShell } from "../../components/AppShell";
 import { Button } from "../../components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/Card";
@@ -27,6 +27,7 @@ import { Badge } from "../../components/ui/Badge";
 
 function NewInner() {
   const router = useRouter();
+  const user = useAuthUser();
   const [meetingUrl, setMeetingUrl] = useState("");
   const [botName, setBotName] = useState("Meet Bot");
   const [saveToDrive, setSaveToDrive] = useState(false);
@@ -90,7 +91,16 @@ function NewInner() {
   }, [defaultsHydrated, storageLoading, storageInfo]);
 
   const s3CredentialsReady = storageInfo?.configured === true;
-  const s3SwitchDisabled = storageLoading || !s3CredentialsReady;
+  const s3SwitchDisabled = storageLoading || !s3CredentialsReady || user.demo;
+  const driveSwitchDisabled = user.demo;
+
+  // Force off if demo
+  useEffect(() => {
+    if (user.demo) {
+      setSaveToDrive(false);
+      setSaveToSpaces(false);
+    }
+  }, [user.demo]);
 
   async function submit(ev: React.FormEvent) {
     ev.preventDefault();
@@ -156,121 +166,126 @@ function NewInner() {
               />
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={() => setSaveToDrive((v) => !v)}
-                className="mb-ripple-host flex items-start gap-3 rounded-xl border border-border bg-muted/30 p-3 text-left transition-[background-color,border-color] duration-150 hover:border-primary/30 hover:bg-muted/50"
-              >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <FolderUp className="h-4 w-4" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-sm font-semibold">Google Drive</span>
-                  <span className="mt-0.5 block text-xs text-muted-foreground">
-                    Recordlar Google Drive hesabınızda saxlanacaq.
-                  </span>
-                </span>
-                <Switch
-                  checked={saveToDrive}
-                  onCheckedChange={setSaveToDrive}
-                  ariaLabel="Drive-a yadda saxla"
-                />
-              </button>
-
-              <div
-                className={cn(
-                  "flex items-start gap-3 rounded-xl border border-border bg-muted/30 p-3 text-left transition-[background-color,border-color] duration-150",
-                  s3SwitchDisabled
-                    ? "cursor-not-allowed opacity-80"
-                    : "cursor-pointer hover:border-primary/30 hover:bg-muted/50"
-                )}
-                role="presentation"
-                onClick={() => {
-                  if (!s3SwitchDisabled) setSaveToSpaces((v) => !v);
-                }}
-                onKeyDown={(e) => {
-                  if (s3SwitchDisabled) return;
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setSaveToSpaces((v) => !v);
-                  }
-                }}
-              >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-success/15 text-success">
-                  <Cloud className="h-4 w-4" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="flex flex-wrap items-center gap-1.5 text-sm font-semibold">
-                    Object storage (S3)
-                    {storageLoading ? (
-                      <Badge variant="default" className="h-5 px-1.5 text-[10px]">
-                        …
-                      </Badge>
-                    ) : s3CredentialsReady ? (
-                      <Badge variant="success" className="h-5 px-1.5 text-[10px]">
-                        <CheckCircle2 className="h-3 w-3" />
-                        Hazır
-                      </Badge>
-                    ) : (
-                      <Badge variant="warning" className="h-5 px-1.5 text-[10px]">
-                        Əlavə edilməyib
-                      </Badge>
-                    )}
-                  </span>
-                  <span className="mt-0.5 block text-xs text-muted-foreground">
-                    {storageLoading ? (
-                      "Bulud tənzimləmələri yoxlanır…"
-                    ) : s3CredentialsReady ? (
-                      "Recordlar S3 uyğun buludunuza yüklənəcək — keçidi söndürə bilərsiniz."
-                    ) : (
-                      <>
-                        Öz bucket üçün əvvəl{" "}
-                        <Link
-                          href="/settings/storage"
-                          className="font-medium text-primary underline-offset-2 hover:underline"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          S3 tənzimləmələri
-                        </Link>{" "}
-                        əlavə edin; keçid aktiv olmayana qədər söndürülüb qalır.
-                      </>
-                    )}
-                  </span>
-                </span>
-                <span
-                  className="shrink-0"
-                  onClick={(e) => e.stopPropagation()}
-                  onKeyDown={(e) => e.stopPropagation()}
+            {!user.demo && (
+              <div className="grid gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => setSaveToDrive((v) => !v)}
+                  className="mb-ripple-host flex items-start gap-3 rounded-xl border border-border bg-muted/30 p-3 text-left transition-[background-color,border-color] duration-150 hover:border-primary/30 hover:bg-muted/50"
                 >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <FolderUp className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold">Google Drive</span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">
+                      Recordlar Google Drive hesabınızda saxlanacaq.
+                    </span>
+                  </span>
                   <Switch
-                    checked={s3CredentialsReady && saveToSpaces}
-                    onCheckedChange={(next) => {
-                      if (!s3CredentialsReady) return;
-                      setSaveToSpaces(next);
-                    }}
-                    disabled={s3SwitchDisabled}
-                    ariaLabel="Object storage-a yüklə"
+                    checked={!driveSwitchDisabled && saveToDrive}
+                    onCheckedChange={(next) => !driveSwitchDisabled && setSaveToDrive(next)}
+                    disabled={driveSwitchDisabled}
+                    ariaLabel="Drive-a yadda saxla"
                   />
-                </span>
-              </div>
-            </div>
+                </button>
 
-            <div className="space-y-2">
-              <Label htmlFor="drive-folder">Bulud qovluğu — Drive və S3 (istəyə bağlı)</Label>
-              <Input
-                id="drive-folder"
-                placeholder="Drive qovluq ID və ya yeni qovluq adı (məs: Meet Records)"
-                value={driveFolderId}
-                onChange={(e) => setDriveFolderId(e.target.value)}
-                disabled={!saveToDrive && !saveToSpaces}
-              />
-              <p className="text-xs text-muted-foreground">
-                Google Drive-da bu qovluğa yüklənir; S3 faylları da eyni məntiqi qovluq altında
-                saxlanır. Ad yazsanız və ya köhnə ID işləmirsə, server təhlükəsiz şəkildə yeni qovluq
-                yarada bilər. Boşsə — Drive kökü; S3-də hər bot üçün ayrıca meet-recordings prefiksi.
-              </p>
-            </div>
+                <div
+                  className={cn(
+                    "flex items-start gap-3 rounded-xl border border-border bg-muted/30 p-3 text-left transition-[background-color,border-color] duration-150",
+                    s3SwitchDisabled
+                      ? "cursor-not-allowed opacity-80"
+                      : "cursor-pointer hover:border-primary/30 hover:bg-muted/50"
+                  )}
+                  role="presentation"
+                  onClick={() => {
+                    if (!s3SwitchDisabled) setSaveToSpaces((v) => !v);
+                  }}
+                  onKeyDown={(e) => {
+                    if (s3SwitchDisabled) return;
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSaveToSpaces((v) => !v);
+                    }
+                  }}
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-success/15 text-success">
+                    <Cloud className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex flex-wrap items-center gap-1.5 text-sm font-semibold">
+                      Object storage (S3)
+                      {storageLoading ? (
+                        <Badge variant="default" className="h-5 px-1.5 text-[10px]">
+                          …
+                        </Badge>
+                      ) : s3CredentialsReady ? (
+                        <Badge variant="success" className="h-5 px-1.5 text-[10px]">
+                          <CheckCircle2 className="h-3 w-3" />
+                          Hazır
+                        </Badge>
+                      ) : (
+                        <Badge variant="warning" className="h-5 px-1.5 text-[10px]">
+                          Əlavə edilməyib
+                        </Badge>
+                      )}
+                    </span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">
+                      {storageLoading ? (
+                        "Bulud tənzimləmələri yoxlanır…"
+                      ) : s3CredentialsReady ? (
+                        "Recordlar S3 uyğun buludunuza yüklənəcək — keçidi söndürə bilərsiniz."
+                      ) : (
+                        <>
+                          Öz bucket üçün əvvəl{" "}
+                          <Link
+                            href="/settings/storage"
+                            className="font-medium text-primary underline-offset-2 hover:underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            S3 tənzimləmələri
+                          </Link>{" "}
+                          əlavə edin; keçid aktiv olmayana qədər söndürülüb qalır.
+                        </>
+                      )}
+                    </span>
+                  </span>
+                  <span
+                    className="shrink-0"
+                    onClick={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => e.stopPropagation()}
+                  >
+                    <Switch
+                      checked={s3CredentialsReady && saveToSpaces}
+                      onCheckedChange={(next) => {
+                        if (!s3CredentialsReady) return;
+                        setSaveToSpaces(next);
+                      }}
+                      disabled={s3SwitchDisabled}
+                      ariaLabel="Object storage-a yüklə"
+                    />
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {!user.demo && (
+              <div className="space-y-2">
+                <Label htmlFor="drive-folder">Bulud qovluğu — Drive və S3 (istəyə bağlı)</Label>
+                <Input
+                  id="drive-folder"
+                  placeholder="Drive qovluq ID və ya yeni qovluq adı (məs: Meet Records)"
+                  value={driveFolderId}
+                  onChange={(e) => setDriveFolderId(e.target.value)}
+                  disabled={!saveToDrive && !saveToSpaces}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Google Drive-da bu qovluğa yüklənir; S3 faylları da eyni məntiqi qovluq altında
+                  saxlanır. Ad yazsanız və ya köhnə ID işləmirsə, server təhlükəsiz şəkildə yeni qovluq
+                  yarada bilər. Boşsə — Drive kökü; S3-də hər bot üçün ayrıca meet-recordings prefiksi.
+                </p>
+              </div>
+            )}
 
             <div className="flex justify-end gap-2 pt-1">
               <Button type="button" variant="outline" onClick={() => router.push("/")}>

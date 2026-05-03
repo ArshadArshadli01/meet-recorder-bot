@@ -16,6 +16,8 @@ import { MobileDrawer } from "./MobileDrawer";
 import { MobileBottomNav } from "./MobileBottomNav";
 import { NotificationBell } from "./NotificationBell";
 import { ThemeToggle } from "./ThemeToggle";
+import { DemoBanner } from "./DemoBanner";
+import { WelcomeModal } from "./WelcomeModal";
 import { Skeleton } from "./ui/Skeleton";
 import { cn } from "../lib/utils";
 import { useMinimumSkeleton } from "../lib/useMinimumSkeleton";
@@ -110,9 +112,10 @@ export function AppShell({ children }: { children: ReactNode }) {
   const showAuthShell = useMinimumSkeleton(authLoading, 400);
 
   const authedUserId = auth.status === "authenticated" ? auth.user.id : null;
+  const isDemoUser = auth.status === "authenticated" && auth.user.demo;
 
   useEffect(() => {
-    if (!authedUserId) {
+    if (!authedUserId || isDemoUser) {
       setUnread(0);
       return;
     }
@@ -140,10 +143,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       window.removeEventListener(NOTIFICATIONS_CHANGED_EVENT, onChanged);
       unsub();
     };
-  }, [authedUserId]);
+  }, [authedUserId, isDemoUser]);
 
   if (authLoading || showAuthShell) return <ShellSkeleton />;
-  if (auth.status === "anonymous") return <ShellSkeleton />;
+  if (auth.status !== "authenticated") return <ShellSkeleton />;
 
   const { user } = auth;
 
@@ -156,6 +159,9 @@ export function AppShell({ children }: { children: ReactNode }) {
       />
       <MobileTopBar user={user} onOpenDrawer={() => setDrawerOpen(true)} />
       <DesktopTopBar user={user} />
+
+      <DemoBanner />
+      <WelcomeModal />
 
       <main className="px-4 py-4 lg:px-8 lg:py-8">{children}</main>
 

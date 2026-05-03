@@ -123,7 +123,7 @@ export function MobileDrawer({
   const links: DrawerLink[] = [
     { href: "/", label: "Panel", icon: LayoutDashboard },
     { href: "/new", label: "Yeni record", icon: Plus },
-    { href: "/settings/storage", label: "S3 / Bulud", icon: Cloud },
+    ...(user.demo ? [] : [{ href: "/settings/storage", label: "S3 / Bulud", icon: Cloud }]),
     { href: "/notifications", label: "Bildirişlər", icon: Bell, badge: unread },
   ];
 

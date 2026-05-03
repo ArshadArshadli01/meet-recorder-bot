@@ -11,13 +11,14 @@ export type AuthUser = {
   givenName?: string;
   familyName?: string;
   locale?: string;
+  demo?: boolean;
 };
 
 export type AuthMe =
   | { authenticated: true; user: AuthUser }
   | { authenticated: false };
 
-export type AuthStatus = { configured: boolean; publicBaseUrl: string };
+export type AuthStatus = { configured: boolean; publicBaseUrl: string; appDemoMode?: boolean };
 
 export type BotResult = {
   /** Yoxdursa, fayl buluda köçürülüb və yerli qovluq silinib ola bilər. */
