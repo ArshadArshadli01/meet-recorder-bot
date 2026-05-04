@@ -11,6 +11,7 @@ import { clearJobCancel, isJobCancelRequested } from "./job-cancel.js";
 import { markTimesInMeet } from "./meet-metrics.js";
 import { LINUX_DESKTOP_MP4 } from "./ffmpeg-linux-desktop-capture.js";
 import { muxWebmWithSidecarAudioIfPresent } from "./ffmpeg-mux.js";
+import { optimizeMp4ForWeb } from "./ffmpeg-optimize.js";
 import { startParallelAudioCapture } from "./parallel-audio-capture.js";
 import { collectArtifactPaths } from "./meet-artifacts.js";
 import {
@@ -213,6 +214,12 @@ const worker = new Worker<MeetJobPayload, MeetJobResult>(
             `[job ${botId}] ${LINUX_DESKTOP_MP4} — skipping WebM mux (desktop MP4 path; upgrade worker for pulse mux telemetry).`
           );
         }
+      }
+
+      // Optimize for web seeking (move moov atom to front) before cloud upload
+      if (existsSync(videoPath) && videoPath.toLowerCase().endsWith(".mp4")) {
+        workerLog(`[job ${botId}] optimizing MP4 for web seeking (faststart)...`);
+        await optimizeMp4ForWeb(videoPath);
       }
 
       const rel = relative(config.dataDir, videoPath).replace(/\\/g, "/");
