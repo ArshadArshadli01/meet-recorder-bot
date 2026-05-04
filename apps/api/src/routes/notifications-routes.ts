@@ -12,7 +12,25 @@ import {
   unreadCount,
 } from "../db/models/notifications.js";
 
+import { config } from "../config.js";
+
 export async function registerNotificationRoutes(app: FastifyInstance): Promise<void> {
+  /**
+   * Returns the client-side Firebase configuration. The dashboard and service worker
+   * fetch this at runtime so they don't need these environment variables baked into
+   * the static build.
+   */
+  app.get("/firebase-config", async () => {
+    return {
+      apiKey: config.nextPublicFirebaseApiKey,
+      authDomain: config.nextPublicFirebaseAuthDomain,
+      projectId: config.nextPublicFirebaseProjectId,
+      messagingSenderId: config.nextPublicFirebaseMessagingSenderId,
+      appId: config.nextPublicFirebaseAppId,
+      vapidKey: config.nextPublicFirebaseVapidKey,
+    };
+  });
+
   app.post<{ Body: { token?: string } }>("/me/notifications/token", async (req, reply) => {
     const userId = await requireUserId(req, reply);
     if (!userId) return;

@@ -240,7 +240,10 @@ export const config = {
     process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || "http://localhost:3000",
   nextPublicFirebaseApiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim() || "",
   nextPublicFirebaseAuthDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN?.trim() || "",
-  nextPublicFirebaseProjectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID?.trim() || "",
+  nextPublicFirebaseProjectId:
+    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID?.trim() ||
+    process.env.FCM_PROJECT_ID?.trim() ||
+    "",
   nextPublicFirebaseMessagingSenderId:
     process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID?.trim() || "",
   nextPublicFirebaseAppId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID?.trim() || "",

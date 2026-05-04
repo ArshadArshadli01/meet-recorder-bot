@@ -22,6 +22,7 @@ const PUBLIC_PREFIXES: string[] = [
   "/health",
   "/version",
   "/auth/",        // /auth/status, /auth/google/start, /auth/google/callback, /auth/me, /auth/logout
+  "/firebase-config",
 ];
 
 /** Exact-match public paths (no trailing sub-path). */
@@ -33,6 +34,7 @@ const PUBLIC_EXACT: Set<string> = new Set([
   "/auth/google/callback",
   "/auth/me",
   "/auth/logout",
+  "/firebase-config",
 ]);
 
 function isPublicRoute(url: string): boolean {
