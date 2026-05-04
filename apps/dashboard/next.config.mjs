@@ -17,6 +17,10 @@ const nextConfig = {
         destination: `${rewriteApiBase}/:path*`,
       },
       {
+        source: "/firebase-config",
+        destination: `${rewriteApiBase}/firebase-config`,
+      },
+      {
         source: "/socket.io/:path*",
         destination: `${rewriteApiBase}/socket.io/:path*`,
       },
