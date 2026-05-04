@@ -239,7 +239,9 @@ export const config = {
   nextPublicApiBaseUrl:
     process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || "http://localhost:3000",
   nextPublicFirebaseApiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim() || "",
-  nextPublicFirebaseAuthDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN?.trim() || "",
+  nextPublicFirebaseAuthDomain:
+    process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN?.trim() ||
+    (process.env.FCM_PROJECT_ID ? `${process.env.FCM_PROJECT_ID.trim()}.firebaseapp.com` : ""),
   nextPublicFirebaseProjectId:
     process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID?.trim() ||
     process.env.FCM_PROJECT_ID?.trim() ||
