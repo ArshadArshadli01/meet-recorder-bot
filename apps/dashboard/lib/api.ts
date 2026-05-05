@@ -139,6 +139,21 @@ async function request<T>(input: string, init?: RequestInit): Promise<T> {
 
 let discoveredPublicBaseUrl = "";
 
+function isLocalhostHost(hostname: string): boolean {
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+}
+
+function shouldIgnoreConfiguredBaseUrl(configuredBaseUrl: string): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const configuredHost = new URL(configuredBaseUrl).hostname;
+    const currentHost = window.location.hostname;
+    return isLocalhostHost(configuredHost) && !isLocalhostHost(currentHost);
+  } catch {
+    return false;
+  }
+}
+
 export const api = {
   authStatus: async () => {
     const res = await request<AuthStatus>("/auth/status");
@@ -219,10 +234,12 @@ export const api = {
 };
 
 export function loginUrl(returnTo: string): string {
-  const baseUrl = discoveredPublicBaseUrl || process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") || "";
-  if (baseUrl) {
+  const configuredBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") || "";
+  const baseUrl = discoveredPublicBaseUrl || configuredBaseUrl;
+  if (baseUrl && !shouldIgnoreConfiguredBaseUrl(baseUrl)) {
     return `${baseUrl}/auth/google/start?return=${encodeURIComponent(returnTo)}`;
   }
+  // Prefer dashboard-side proxy if API URL discovery failed or env points to localhost in prod.
   return `/api/auth/google/start?return=${encodeURIComponent(returnTo)}`;
 }
 

@@ -25,7 +25,6 @@ function LoginInner() {
         }
       })
       .catch(() => {
-        // If the API is down / misconfigured, don't keep the login UI stuck on a spinner.
         if (!cancelled) setStatusLoading(false);
       });
 

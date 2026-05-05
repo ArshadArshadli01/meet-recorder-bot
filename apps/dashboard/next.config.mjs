@@ -6,6 +6,7 @@
 const rewriteApiBase =
   process.env.INTERNAL_API_BASE_URL?.trim() ||
   process.env.NEXT_PUBLIC_API_BASE_URL?.trim() ||
+  process.env.PUBLIC_BASE_URL?.trim() ||
   "http://localhost:3000";
 
 /** @type {import('next').NextConfig} */
