@@ -16,12 +16,18 @@ function LoginInner() {
 
   useEffect(() => {
     let cancelled = false;
-    void api.authStatus().then((s) => {
-      if (!cancelled) {
-        setDemoMode(!!s.appDemoMode);
-        setStatusLoading(false);
-      }
-    });
+    void api
+      .authStatus()
+      .then((s) => {
+        if (!cancelled) {
+          setDemoMode(!!s.appDemoMode);
+          setStatusLoading(false);
+        }
+      })
+      .catch(() => {
+        // If the API is down / misconfigured, don't keep the login UI stuck on a spinner.
+        if (!cancelled) setStatusLoading(false);
+      });
 
     void api
       .me()
