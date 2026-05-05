@@ -14,6 +14,8 @@ ARG INTERNAL_API_BASE_URL=http://api:3000
 ENV INTERNAL_API_BASE_URL=$INTERNAL_API_BASE_URL
 ARG NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+ARG NEXT_PUBLIC_DASHBOARD_ORIGIN=http://localhost:4000
+ENV NEXT_PUBLIC_DASHBOARD_ORIGIN=$NEXT_PUBLIC_DASHBOARD_ORIGIN
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
@@ -32,4 +34,5 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/next.config.mjs ./next.config.mjs
 
 EXPOSE 4000
-CMD ["npx", "next", "start", "-p", "4000"]
+# Compose overrides PORT (e.g. 4100) so host mapping and Next logs match.
+CMD ["npx", "next", "start"]

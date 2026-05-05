@@ -35,11 +35,11 @@ services:
         GIT_SHA: ${GIT_SHA:-dev}
         BUILD_IMAGE: ${BUILD_IMAGE:-meet-bot-api:dev}
     ports:
-      - "${PORT:-3000}:3000"
+      - "${PORT:-3000}:${PORT:-3000}"
     environment:
       REDIS_URL: redis://redis:6379
       DATA_DIR: /data
-      PORT: "3000"
+      PORT: "${PORT:-3000}"
       # Public origin used for Google OAuth redirect URI + cookie scoping. MUST exactly match the
       # "Authorized redirect URI" registered in Google Cloud Console.
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:3000}
@@ -137,15 +137,18 @@ services:
     build:
       context: ./apps/dashboard
       args:
-        # Next.js rewrites `/api/*` server-side — use Docker DNS, not localhost.
-        INTERNAL_API_BASE_URL: http://api:3000
+        # Next.js rewrites `/api/*` server-side — use Docker DNS + same port the API listens on.
+        INTERNAL_API_BASE_URL: http://api:${PORT:-3000}
         NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3000}
+        NEXT_PUBLIC_DASHBOARD_ORIGIN: ${DASHBOARD_ORIGIN:-http://localhost:4000}
     ports:
-      - "${DASHBOARD_PORT:-4000}:4000"
+      - "${DASHBOARD_PORT:-4000}:${DASHBOARD_PORT:-4000}"
     environment:
-      # Runtime (next start); same values so any dynamic config stays aligned.
-      INTERNAL_API_BASE_URL: http://api:3000
+      # Runtime (next start); PORT must match the right-hand side of ports: for correct URLs in logs.
+      PORT: "${DASHBOARD_PORT:-4000}"
+      INTERNAL_API_BASE_URL: http://api:${PORT:-3000}
       NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3000}
+      NEXT_PUBLIC_DASHBOARD_ORIGIN: ${DASHBOARD_ORIGIN:-http://localhost:4000}
       NEXT_PUBLIC_FIREBASE_API_KEY: ${NEXT_PUBLIC_FIREBASE_API_KEY:-}
       NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN:-}
       NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${NEXT_PUBLIC_FIREBASE_PROJECT_ID:-}

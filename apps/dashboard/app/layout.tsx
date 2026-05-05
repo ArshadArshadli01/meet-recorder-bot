@@ -5,7 +5,18 @@ import { Toaster } from "sonner";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { PageProgressBar } from "../components/PageProgressBar";
 
+function dashboardMetadataBase(): URL {
+  const raw =
+    process.env.NEXT_PUBLIC_DASHBOARD_ORIGIN?.trim() || "http://localhost:4000";
+  try {
+    return new URL(raw);
+  } catch {
+    return new URL("http://localhost:4000");
+  }
+}
+
 export const metadata: Metadata = {
+  metadataBase: dashboardMetadataBase(),
   title: "Meet Bot",
   description: "Secure meeting recording dashboard",
   icons: {

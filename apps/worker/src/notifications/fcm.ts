@@ -12,6 +12,7 @@ import {
 } from "../realtime-events.js";
 
 let initialized = false;
+let initFailed = false;
 
 function hasFcmConfig(): boolean {
   return Boolean(config.fcmProjectId && config.fcmClientEmail && config.fcmPrivateKey);
@@ -19,16 +20,24 @@ function hasFcmConfig(): boolean {
 
 function initFcm(): boolean {
   if (initialized) return true;
+  if (initFailed) return false;
   if (!hasFcmConfig()) return false;
-  admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: config.fcmProjectId,
-      clientEmail: config.fcmClientEmail,
-      privateKey: config.fcmPrivateKey,
-    }),
-  });
-  initialized = true;
-  return true;
+  try {
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId: config.fcmProjectId,
+        clientEmail: config.fcmClientEmail,
+        privateKey: config.fcmPrivateKey,
+      }),
+    });
+    initialized = true;
+    return true;
+  } catch (err) {
+    initFailed = true;
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[notifications] FCM init failed; push disabled:", msg);
+    return false;
+  }
 }
 
 async function publishNotificationEvent(input: {
